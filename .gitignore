@@ -1,0 +1,9 @@
+# Design reference used during development; not required by the game.
+E84F4132-A1A0-4A91-8710-7CE570008023.png
+
+# Local development files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
