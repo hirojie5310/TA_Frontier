@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08376d">
+  <title>TA FRONTIER QUEST</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><span></span><span></span><span></span></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">TF</span>
+      <div><strong>TA FRONTIER QUEST</strong><small>繊維の世界を冒険しよう！</small></div>
+    </div>
+    <div class="status" aria-label="プレイヤーステータス">
+      <span>⭐ <b id="points">0</b> pt</span>
+      <span>🧭 発見 <b id="discoveries">0</b>/3</span>
+      <button id="soundBtn" class="icon-btn" type="button" aria-label="効果音を切り替える">🔊</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">集めて・知って・つながる</p>
+        <h1>未来を織る、<br><em>フロンティア</em>へ。</h1>
+        <p>仕事を手伝ってポイントを集め、繊維から生まれる製品を装備しよう。3つの部署の魅力を発見すれば冒険クリア！</p>
+      </div>
+      <div class="hero-party" aria-label="冒険者たち"><span>🧑🏻‍💼</span><span>🧵</span><span>👩🏻‍🔬</span></div>
+    </section>
+
+    <section class="game-shell">
+      <nav class="tabs" aria-label="ゲームメニュー">
+        <button class="tab active" data-view="map" type="button"><span>🗺️</span>冒険マップ</button>
+        <button class="tab" data-view="shop" type="button"><span>🏪</span>商品市場 <i id="shopBadge" hidden>!</i></button>
+        <button class="tab" data-view="gear" type="button"><span>🎒</span>装備</button>
+        <button class="tab" data-view="book" type="button"><span>📖</span>部署図鑑</button>
+      </nav>
+
+      <div id="map" class="view active-view">
+        <div class="view-heading">
+          <div><span class="kicker">WORLD MAP</span><h2>繊維の島々</h2></div>
+          <p id="mapHint">光っている場所を選んでクエストに挑戦しよう</p>
+        </div>
+        <div class="world-map">
+          <svg class="route-lines" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M145 315 C270 150, 380 380, 500 225 S720 70, 835 250"/>
+            <path d="M500 225 C565 330, 690 410, 840 390"/>
+          </svg>
+          <button class="place current" data-quest="forest" style="--x:14%;--y:60%" type="button">
+            <span class="place-art">🌲</span><strong>繊維の森</strong><small>原料を見分けよう</small>
+          </button>
+          <button class="place" data-quest="town" style="--x:49%;--y:42%" type="button">
+            <span class="place-art">🏘️</span><strong>生地の町</strong><small>ぴったりの素材を届けよう</small>
+          </button>
+          <button class="place" data-quest="street" style="--x:83%;--y:48%" type="button">
+            <span class="place-art">🏰</span><strong>ファッションの街</strong><small>快適な服を提案しよう</small>
+          </button>
+          <button class="place" data-quest="mine" style="--x:83%;--y:76%" type="button">
+            <span class="place-art">⛺</span><strong>建材の砦</strong><small>軽くて強い素材を探そう</small>
+          </button>
+          <div class="player-token" id="playerToken" style="--x:14%;--y:60%" aria-label="あなた">🧑🏻‍🚀</div>
+        </div>
+      </div>
+
+      <div id="shop" class="view">
+        <div class="view-heading"><div><span class="kicker">FRONTIER MARKET</span><h2>ポイントで商品を手に入れよう</h2></div><p>商品を買って装備すると、仕事の魅力がわかります</p></div>
+        <div id="shopGrid" class="card-grid"></div>
+      </div>
+
+      <div id="gear" class="view">
+        <div class="view-heading"><div><span class="kicker">MY CHARACTER</span><h2>冒険スタイル</h2></div><p>手に入れた商品を装備してみよう</p></div>
+        <div class="gear-layout">
+          <div class="character-card">
+            <div class="character" id="character">🧑🏻‍🚀</div>
+            <strong>フロンティア見習い</strong><small id="rankText">次のランクまで、あと3つ発見</small>
+            <div id="equippedList" class="equipped-list">まだ装備はありません</div>
+          </div>
+          <div><h3>マイアイテム</h3><div id="inventoryGrid" class="inventory-grid"></div></div>
+        </div>
+      </div>
+
+      <div id="book" class="view">
+        <div class="view-heading"><div><span class="kicker">TEAM DISCOVERY</span><h2>部署図鑑</h2></div><p>装備した商品の先にいる、ものづくりの仲間たち</p></div>
+        <div id="bookGrid" class="book-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal open" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <button id="modalClose" class="modal-close" type="button" aria-label="閉じる">×</button>
+      <div id="modalIcon" class="modal-icon">🧭</div>
+      <p id="modalEyebrow" class="eyebrow">WELCOME, EXPLORER!</p>
+      <h2 id="modalTitle">繊維の世界へようこそ！</h2>
+      <div id="modalBody"><p>この世界では、一本の糸が服やテント、家を支える素材へと姿を変えます。</p><p>マップの仕事を手伝ってポイントを集め、商品を装備して<strong>3つの部署</strong>を発見しましょう。</p></div>
+      <div id="modalActions" class="modal-actions"><button class="primary" data-action="close" type="button">冒険をはじめる</button></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <footer><span>TA FRONTIER QUEST</span><span>一本の繊維から、暮らしの未来へ。</span></footer>
+  <script src="game.js"></script>
+</body>
+</html>
+
